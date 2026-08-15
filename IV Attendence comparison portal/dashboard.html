@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Review AM attendance reconciliation results.">
+  <title>Attendance Dashboard · Innovative View</title>
+  <script>(()=>{try{const saved=localStorage.getItem("innovative-view-theme");document.documentElement.dataset.theme=saved==="light"?"light":"dark"}catch{document.documentElement.dataset.theme="dark"}})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wdth,wght@75..100,100..700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <span class="cursor-aura" aria-hidden="true"></span>
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="Innovative View home">
+        <span class="brand-mark" aria-hidden="true">⚙︎</span>
+        <span><strong class="wordmark" aria-label="Innovative View"><span>Inn</span><span class="wordmark-gear" aria-hidden="true">⚙︎</span><span>vative</span><span class="wordmark-view">View</span></strong><small>Attendance intelligence</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html"><i class="standalone-icon" data-lucide="upload-cloud" data-size="16" aria-hidden="true"></i> Compare files</a>
+        <a class="active" href="dashboard.html"><i class="standalone-icon" data-lucide="bar-chart-3" data-size="16" aria-hidden="true"></i> Dashboard</a>
+      </nav>
+      <div class="secure-chip"><i class="standalone-icon" data-lucide="shield-check" data-size="15" aria-hidden="true"></i> Validated source data only</div>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false" title="Switch to light theme"><span class="theme-option theme-option-light" data-lucide="sun" data-size="14" aria-hidden="true"></span><span class="theme-option theme-option-dark" data-lucide="moon" data-size="14" aria-hidden="true"></span></button>
+    </header>
+
+    <main class="dashboard-loading" id="dashboard-loader" role="status" aria-live="polite">
+      <div class="dashboard-loader-visual" aria-hidden="true">
+        <span class="dashboard-loader-orbit orbit-one"></span>
+        <span class="dashboard-loader-orbit orbit-two"></span>
+        <span class="dashboard-loader-gear" data-lucide="cog" data-size="54" data-stroke-width="1.7"></span>
+        <span class="dashboard-loader-glow"></span>
+      </div>
+      <strong>Opening dashboard</strong>
+      <span>Preparing your attendance results…</span>
+      <div class="dashboard-loader-line" aria-hidden="true"><i></i></div>
+    </main>
+
+    <main class="empty-dashboard" id="empty-dashboard" hidden>
+      <span class="empty-dashboard-icon" data-lucide="file-spreadsheet" data-size="28"></span>
+      <h1>No comparison available</h1>
+      <p>Upload the Payment and RM attendance files to create a dashboard.</p>
+      <a class="open-results" href="index.html"><i class="standalone-icon" data-lucide="arrow-left" data-size="17" aria-hidden="true"></i> Go to file comparison</a>
+    </main>
+
+    <main class="results-page" id="results-page" hidden>
+      <div class="results-topline">
+        <div>
+          <a class="back-link" href="index.html"><i class="standalone-icon" data-lucide="arrow-left" data-size="15" aria-hidden="true"></i> Compare new files</a>
+          <span class="step-label">STEP 02 · REVIEW OUTPUT</span>
+          <h1>Attendance dashboard</h1>
+          <p>Every result row represents one AM on one exact attendance date, with Payment and RM times shown together.</p>
+        </div>
+        <div class="result-actions">
+          <a class="drive-button" id="drive-button" target="_blank" rel="noreferrer" hidden><i class="standalone-icon" data-lucide="cloud" data-size="17" aria-hidden="true"></i> Open linked Google Sheet</a>
+          <button class="primary-download" id="download-button"><i class="standalone-icon" data-lucide="download" data-size="17" aria-hidden="true"></i> Download Excel</button>
+        </div>
+      </div>
+
+      <section class="metric-strip results-metrics" id="metric-strip" aria-label="Comparison summary"></section>
+
+      <section class="source-audit-bar" aria-label="Validated source files">
+        <div><small>PAYMENT SOURCE</small><strong id="payment-source-name"></strong><span id="payment-source-details"></span></div>
+        <div><small>RM SOURCE</small><strong id="rm-source-name"></strong><span id="rm-source-details"></span></div>
+      </section>
+
+      <section class="table-card">
+        <div class="table-toolbar">
+          <div class="filter-tabs" id="filter-tabs" role="tablist" aria-label="Filter results"></div>
+          <div class="table-controls">
+            <label class="date-filter"><span data-lucide="calendar-days" data-size="16" aria-hidden="true"></span><span class="sr-only">Filter by attendance date</span><select id="date-filter" aria-label="Filter by attendance date"><option value="All">All dates</option></select></label>
+            <label class="search-field"><span data-lucide="search" data-size="17" aria-hidden="true"></span><input id="search-input" placeholder="Search AM, date, or time" aria-label="Search comparison results"></label>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>AM DETAILS</th><th>VENDOR</th><th>ATTENDANCE DATE</th><th>PAYMENT TIMES</th><th>RM TIMES</th><th>DATE-SPECIFIC RESULT</th></tr></thead>
+            <tbody id="results-body"></tbody>
+          </table>
+        </div>
+        <div class="table-footer"><span id="result-count"></span><span><i class="standalone-icon" data-lucide="lock-keyhole" data-size="13" aria-hidden="true"></i> Data from the current browser session</span></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="brand"><span class="brand-mark" aria-hidden="true">⚙︎</span><span><strong class="wordmark" aria-label="Innovative View"><span>Inn</span><span class="wordmark-gear" aria-hidden="true">⚙︎</span><span>vative</span><span class="wordmark-view">View</span></strong><small>Attendance intelligence</small></span></div>
+      <p>Built for faster, more reliable AM attendance checks.</p>
+      <span>Payment ↔ RM · One source of truth</span>
+    </footer>
+  </div>
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>

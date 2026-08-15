@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Payment and RM attendance workbooks without changing the source files.">
+  <title>Innovative View · AM Attendance Comparison Portal</title>
+  <script>(()=>{try{const saved=localStorage.getItem("innovative-view-theme");document.documentElement.dataset.theme=saved==="light"?"light":"dark"}catch{document.documentElement.dataset.theme="dark"}})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wdth,wght@75..100,100..700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <span class="cursor-aura" aria-hidden="true"></span>
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="Innovative View home">
+        <span class="brand-mark" aria-hidden="true">⚙︎</span>
+        <span><strong class="wordmark" aria-label="Innovative View"><span>Inn</span><span class="wordmark-gear" aria-hidden="true">⚙︎</span><span>vative</span><span class="wordmark-view">View</span></strong><small>Attendance intelligence</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a class="active" href="index.html"><i class="standalone-icon" data-lucide="upload-cloud" data-size="16" aria-hidden="true"></i> Compare files</a>
+        <a href="dashboard.html"><i class="standalone-icon" data-lucide="bar-chart-3" data-size="16" aria-hidden="true"></i> Dashboard</a>
+      </nav>
+      <div class="secure-chip"><i class="standalone-icon" data-lucide="shield-check" data-size="15" aria-hidden="true"></i> Validated source data only</div>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false" title="Switch to light theme"><span class="theme-option theme-option-light" data-lucide="sun" data-size="14" aria-hidden="true"></span><span class="theme-option theme-option-dark" data-lucide="moon" data-size="14" aria-hidden="true"></span></button>
+    </header>
+
+    <main class="compare-page">
+      <section class="compare-intro">
+        <h1>AM Attendance<br><span>Comparison Portal</span></h1>
+        <p>Upload the Payment and RM workbooks as they are. The portal normalizes common Excel layouts in memory, then compares only deterministic AM and attendance records.</p>
+        <div class="intro-points">
+          <span><i class="standalone-icon" data-lucide="check-circle-2" data-size="16" aria-hidden="true"></i> No manual cleanup</span>
+          <span><i class="standalone-icon" data-lucide="calendar-days" data-size="16" aria-hidden="true"></i> Wide or row-wise dates</span>
+          <span><i class="standalone-icon" data-lucide="file-spreadsheet" data-size="16" aria-hidden="true"></i> Audited Excel output</span>
+        </div>
+      </section>
+
+      <section class="comparison-card">
+        <div class="card-title-row">
+          <div><span class="step-label">STEP 01 · ADD SOURCES</span><h2>Upload both attendance files</h2></div>
+          <button class="icon-button" id="help-open" aria-label="View file format guide"><span data-lucide="info" data-size="18" aria-hidden="true"></span></button>
+        </div>
+
+        <div class="file-panels">
+          <section class="file-panel" id="payment-panel">
+            <div class="file-panel-number">1</div>
+            <div class="file-panel-head">
+              <div><span class="panel-kicker">PAYMENT SOURCE</span><h2>Payment Attendance Excel</h2><p>Upload your primary payment attendance sheet.</p></div>
+              <div class="source-icon" id="payment-icon" data-lucide="file-spreadsheet" data-size="21"></div>
+            </div>
+            <label class="file-picker" id="payment-picker">
+              <input id="payment-file" type="file" accept=".xlsx,.xls,.csv">
+              <span class="choose-file"><i class="standalone-icon" data-lucide="upload-cloud" data-size="16" aria-hidden="true"></i> <span id="payment-action">Choose file</span></span>
+              <span class="chosen-name" id="payment-name">No file selected</span>
+              <span class="file-size" id="payment-size"></span>
+            </label>
+          </section>
+
+          <div class="file-join" aria-hidden="true"><span>+</span></div>
+
+          <section class="file-panel" id="rm-panel">
+            <div class="file-panel-number">2</div>
+            <div class="file-panel-head">
+              <div><span class="panel-kicker">RM SOURCE</span><h2>RM Attendance Excel</h2><p>Upload the attendance sheet maintained by RMs.</p></div>
+              <div class="source-icon" id="rm-icon" data-lucide="file-spreadsheet" data-size="21"></div>
+            </div>
+            <label class="file-picker" id="rm-picker">
+              <input id="rm-file" type="file" accept=".xlsx,.xls,.csv">
+              <span class="choose-file"><i class="standalone-icon" data-lucide="upload-cloud" data-size="16" aria-hidden="true"></i> <span id="rm-action">Choose file</span></span>
+              <span class="chosen-name" id="rm-name">No file selected</span>
+              <span class="file-size" id="rm-size"></span>
+            </label>
+          </section>
+        </div>
+
+        <div class="normalization-banner">
+          <span data-lucide="scan-line" data-size="17" aria-hidden="true"></span>
+          <div><strong>Automatic workbook normalization</strong><span>Merged and multi-row headers, multiple attendance tabs, Name/Number aliases, blank AM Codes, and yearless date headers with an unambiguous workbook year are handled without changing your source files.</span></div>
+        </div>
+
+        <label class="drive-field">
+          <span class="drive-field-icon" data-lucide="cloud" data-size="19" aria-hidden="true"></span>
+          <span class="drive-field-copy"><strong>Google Comparison Sheet link</strong><small>Optional existing Sheet link for direct dashboard access</small></span>
+          <input id="google-sheet-url" type="url" placeholder="https://docs.google.com/spreadsheets/..." aria-label="Google Comparison Sheet link">
+        </label>
+
+        <div class="error-box" id="error-box" role="alert" hidden><span data-lucide="circle-alert" data-size="17" aria-hidden="true"></span><span id="error-message"></span></div>
+
+        <button class="compare-button" id="compare-button" disabled>
+          <span id="compare-icon" data-lucide="git-compare-arrows" data-size="18" aria-hidden="true"></span>
+          <span id="compare-label">Compare attendance</span>
+          <span id="compare-arrow" data-lucide="arrow-right" data-size="18" aria-hidden="true"></span>
+        </button>
+
+        <section class="success-panel" id="summary" hidden>
+          <div class="success-heading"><span class="success-icon" data-lucide="check" data-size="19"></span><div><span>COMPARISON COMPLETE</span><h2>Audited reconciliation generated</h2></div></div>
+          <div class="summary-grid" id="summary-grid"></div>
+          <div class="audit-line"><span id="payment-audit"></span><span id="rm-audit"></span></div>
+          <a class="open-results" href="dashboard.html"><i class="standalone-icon" data-lucide="file-spreadsheet" data-size="17" aria-hidden="true"></i> Open dashboard <i class="standalone-icon" data-lucide="arrow-right" data-size="17" aria-hidden="true"></i></a>
+        </section>
+
+        <div class="privacy-note"><i class="standalone-icon" data-lucide="lock-keyhole" data-size="14" aria-hidden="true"></i> Files are processed locally. Blank or absent IN/OUT pairs are excluded; no sample, placeholder, or estimated records are created.</div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="brand"><span class="brand-mark" aria-hidden="true">⚙︎</span><span><strong class="wordmark" aria-label="Innovative View"><span>Inn</span><span class="wordmark-gear" aria-hidden="true">⚙︎</span><span>vative</span><span class="wordmark-view">View</span></strong><small>Attendance intelligence</small></span></div>
+      <p>Built for faster, more reliable AM attendance checks.</p>
+      <span>Payment ↔ RM · One source of truth</span>
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="help-modal" hidden>
+    <div class="help-modal" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+      <button class="modal-close" id="help-close" aria-label="Close guide"><span data-lucide="x" data-size="20" aria-hidden="true"></span></button>
+      <span class="modal-icon" data-lucide="file-spreadsheet" data-size="24"></span>
+      <h2 id="guide-title">Excel format guide</h2>
+      <p>Upload the workbooks as maintained by your teams. The portal expands and combines structure in memory; it never edits the originals or invents missing identifiers.</p>
+      <div class="guide-grid">
+        <div><small>IDENTITY COLUMNS</small><strong>AM Code, Name, Number, AM Name and AM Number are recognized</strong></div>
+        <div><small>DATE LAYOUTS</small><strong>Yearless date pairs are accepted when one workbook year is clearly dominant</strong></div>
+        <div><small>WORKBOOK STRUCTURE</small><strong>Merged headers and multiple attendance worksheets are accepted</strong></div>
+        <div><small>ACCURACY CONTROL</small><strong>Ambiguous identities are excluded from attendance results—not auto-matched</strong></div>
+      </div>
+      <button class="compare-button" id="help-done">Got it <span data-lucide="check" data-size="17" aria-hidden="true"></span></button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
